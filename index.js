@@ -11,20 +11,22 @@ if (!process.env.MERCADOPAGO_ACCESS_TOKEN) {
   throw new Error('MERCADOPAGO_ACCESS_TOKEN não está definida');
 }
 
+
 mercadopago.configure({
   access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
 });
 
 app.use(bodyParser.json());
 
-
 console.log('API de pagamento está rodando com sucesso');
+
 
 app.post('/gerar-pagamento', async (req, res) => {
   console.log('Recebido POST /gerar-pagamento com body:', req.body);
   const { valor } = req.body;
 
   if (!valor) {
+    console.log('Valor não fornecido');
     return res.status(400).send('O valor é obrigatório');
   }
 
@@ -74,6 +76,7 @@ app.get('/status-pagamento/:id', async (req, res) => {
     res.status(500).send(`Erro ao verificar status do pagamento: ${error.message}`);
   }
 });
+
 
 app.get('/success', (req, res) => {
   console.log('Recebido GET /success');
