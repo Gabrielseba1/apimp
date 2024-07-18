@@ -1,5 +1,6 @@
 const mercadopago = require('mercadopago');
 
+
 mercadopago.configure({
   access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
 });
@@ -25,7 +26,7 @@ exports.gerarPagamento = async (req, res) => {
       pending: `${req.protocol}://${req.get('host')}/pending`
     },
     auto_return: 'approved',
-    external_reference: `ref-${Date.now()}` // Adicionando uma referência externa
+    external_reference: `ref-${Date.now()}` 
   };
 
   try {
@@ -40,14 +41,15 @@ exports.statusPagamento = async (req, res) => {
   const externalReference = req.params.id;
 
   try {
-    const payment = await mercadopago.payment.search({
+    const searchResponse = await mercadopago.payment.search({
       qs: {
         external_reference: externalReference
       }
     });
 
-    if (payment.body.results.length > 0) {
-      res.json({ status: payment.body.results[0].status });
+    if (searchResponse.body.results.length > 0) {
+      const paymentStatus = searchResponse.body.results[0].status;
+      res.json({ status: paymentStatus });
     } else {
       res.status(404).send('Pagamento não encontrado');
     }
