@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const express = require('express');
 const mercadopago = require('mercadopago');
 const bodyParser = require('body-parser');
@@ -8,7 +9,8 @@ const port = process.env.PORT || 3000;
 
 
 if (!process.env.MERCADOPAGO_ACCESS_TOKEN) {
-  throw new Error('MERCADOPAGO_ACCESS_TOKEN não está definida');
+  console.error('MERCADOPAGO_ACCESS_TOKEN não está definida');
+  process.exit(1);
 }
 
 
@@ -76,9 +78,8 @@ app.get('/status-pagamento/:id', async (req, res) => {
     res.status(500).send(`Erro ao verificar status do pagamento: ${error.message}`);
   }
 });
-
-
-app.get('/success', (req, res) => {
+app
+.get('/success', (req, res) => {
   console.log('Recebido GET /success');
   res.send('Pagamento realizado com sucesso!');
 });
