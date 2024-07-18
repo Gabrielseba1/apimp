@@ -9,6 +9,7 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use('/api', paymentRoutes);
 
+// Servindo a view
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/views/index.html');
 });
