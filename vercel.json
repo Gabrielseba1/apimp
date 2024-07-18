@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.js"
+    }
+  ],
+  "env": {
+    "MERCADOPAGO_ACCESS_TOKEN": "APP_USR-8238331526714194-071801-31430a563a4eab1e8164f443024f6775-461809027"
+  }
+}
